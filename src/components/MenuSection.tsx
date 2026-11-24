@@ -2,24 +2,34 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
-import { TiltCard } from './TiltCard';
 import { ComboBuilder } from './ComboBuilder';
 
-const FOOD_HIGHLIGHTS = [
+const FLOATING_GROUPS = [
   {
-    title: 'Main Course & Kaada',
-    subtitle: 'Chicken Biryani, Kaada Biryani, Ghee Rice & Fried Rice',
-    image: '/images/signature-biryani.jpg',
+    id: 'group-1',
+    image: '/images/dishes-group-1.jpg',
+    alt: 'Chicken Biryani, Chicken Tikka, Butter Chicken, Vegetable Fried Rice, and Spring Rolls',
+    recipes: [
+      'Chicken Biryani',
+      'Chicken Tikka',
+      'Butter Chicken',
+      'Vegetable Fried Rice',
+      'Spring Rolls',
+    ],
+    floatClass: 'animate-float-slow',
   },
   {
-    title: 'Curries & Indian Breads',
-    subtitle: 'Pepper Chicken, Butter Chicken, Kerala Porota & Appam',
-    image: '/images/signature-porota-curry.jpg',
-  },
-  {
-    title: 'Tawa Mixes & Veg / Egg',
-    subtitle: 'Kuthu Porota, Puttu Mix, Egg Roast & Paneer Curries',
-    image: '/images/signature-veg-egg.jpg',
+    id: 'group-2',
+    image: '/images/dishes-group-2.jpg',
+    alt: 'Chicken 65, Butter Naan, Chicken Hakka Noodles, Dal Curry, and Paneer Tikka',
+    recipes: [
+      'Chicken 65',
+      'Butter Naan',
+      'Chicken Hakka Noodles',
+      'Dal Curry',
+      'Paneer Tikka',
+    ],
+    floatClass: 'animate-float-delayed',
   },
 ];
 
@@ -60,38 +70,35 @@ export function MenuSection() {
           </Magnetic>
         </div>
 
-        <div className="mt-7 grid gap-5 sm:grid-cols-3">
-          {FOOD_HIGHLIGHTS.map((item, idx) => (
-            <Magnetic key={item.title} strength={0.18} scale={1.01} className="w-full">
-              <TiltCard className="rounded-2xl">
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.45, delay: idx * 0.08 }}
-                  className="group overflow-hidden rounded-2xl border border-amber-200/60 bg-white shadow-xs transition-shadow duration-300 hover:shadow-lg"
-                >
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      className="h-full w-full origin-top-left scale-[1.22] object-cover transition-transform duration-700 group-hover:scale-[1.26]"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-display text-xl font-semibold text-[#141311] transition-colors group-hover:text-amber-700">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-[#57524B]">{item.subtitle}</p>
-                  </div>
-                </motion.div>
-              </TiltCard>
-            </Magnetic>
+        {/* Floating Isolated Recipes Showcase */}
+        <div className="mt-8 grid items-center gap-8 lg:grid-cols-2">
+          {FLOATING_GROUPS.map((group) => (
+            <div key={group.id} className="flex flex-col items-center">
+              <Magnetic strength={0.16} scale={1.02} className="w-full">
+                <div className={`${group.floatClass} w-full`}>
+                  <img
+                    src={group.image}
+                    alt={group.alt}
+                    loading="lazy"
+                    className="mx-auto w-full max-w-xl object-contain mix-blend-multiply drop-shadow-xl"
+                  />
+                </div>
+              </Magnetic>
+
+              <div className="mt-3 flex flex-wrap justify-center gap-2">
+                {group.recipes.map((recipe) => (
+                  <Magnetic key={recipe} strength={0.28}>
+                    <span className="inline-block rounded-full border border-amber-300/60 bg-white/85 px-3.5 py-1 text-xs font-semibold text-[#141311] shadow-xs backdrop-blur-xs transition-colors hover:border-amber-700 hover:text-amber-700">
+                      {recipe}
+                    </span>
+                  </Magnetic>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
-        <div className="mt-7">
+        <div className="mt-9">
           <Magnetic strength={0.08} scale={1.005} className="w-full">
             <div
               onClick={() => setShowBoardModal(true)}

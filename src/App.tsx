@@ -5,6 +5,7 @@ import { WalkthroughScrubber } from './components/WalkthroughScrubber';
 import { SignatureDishes } from './components/SignatureDishes';
 import { MenuSection } from './components/MenuSection';
 import { MonthlySchemeSection } from './components/MonthlySchemeSection';
+import { ReviewsSection } from './components/ReviewsSection';
 import { AtmosphereSection } from './components/AtmosphereSection';
 import { ContactSection } from './components/ContactSection';
 
@@ -19,6 +20,7 @@ export function App() {
         <SignatureDishes />
         <MenuSection />
         <MonthlySchemeSection />
+        <ReviewsSection />
         <AtmosphereSection />
       </main>
       <ContactSection />
