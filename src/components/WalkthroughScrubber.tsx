@@ -104,7 +104,7 @@ export function WalkthroughScrubber() {
         trigger: container,
         pin: pinEl,
         start: 'top top',
-        end: '+=2000',
+        end: () => (window.innerWidth < 768 ? '+=1200' : '+=2000'),
         scrub: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -190,8 +190,8 @@ export function WalkthroughScrubber() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/70 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
 
-        <div className="pointer-events-none absolute top-20 left-0 right-0 z-10 mx-auto flex max-w-7xl items-center justify-between px-6 sm:px-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#E7E2D8] bg-white/90 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-800 shadow-sm backdrop-blur-md">
+        <div className="pointer-events-none absolute top-16 left-0 right-0 z-10 mx-auto flex max-w-7xl items-center justify-between px-4 sm:top-20 sm:px-10">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#E7E2D8] bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800 shadow-sm backdrop-blur-md sm:px-4 sm:py-1.5 sm:text-[11px]">
             <Compass className="h-3.5 w-3.5 text-amber-700" />
             CM Restaurant Walkthrough
           </div>
@@ -203,15 +203,15 @@ export function WalkthroughScrubber() {
           )}
         </div>
 
-        <div className="pointer-events-none absolute bottom-10 left-0 right-0 z-10 mx-auto max-w-7xl px-6 sm:bottom-14 sm:px-10">
-          <div className="max-w-xl rounded-2xl border border-[#E7E2D8] bg-white/92 p-6 shadow-xl shadow-black/10 backdrop-blur-md transition-all duration-300 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-amber-700">
+        <div className="pointer-events-none absolute bottom-4 left-0 right-0 z-10 mx-auto max-w-7xl px-4 sm:bottom-14 sm:px-10">
+          <div className="max-w-xl rounded-2xl border border-[#E7E2D8] bg-white/92 p-4 shadow-xl shadow-black/10 backdrop-blur-md transition-all duration-300 sm:p-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700 sm:text-xs">
               {activeStage.eyebrow}
             </p>
-            <h2 className="font-display mt-1.5 text-3xl font-semibold text-[#141311] sm:text-4xl">
+            <h2 className="font-display mt-1 text-2xl font-semibold text-[#141311] sm:mt-1.5 sm:text-4xl">
               {activeStage.title}
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-[#57524B] sm:text-base">
+            <p className="mt-1.5 text-xs leading-relaxed text-[#57524B] sm:mt-2 sm:text-base">
               {activeStage.caption}
             </p>
 

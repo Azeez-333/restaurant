@@ -47,10 +47,10 @@ export function AtmosphereSection() {
     <section
       id="atmosphere"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-[#E7E2D8] bg-white py-16 sm:py-20"
+      className="relative overflow-hidden border-t border-[#E7E2D8] bg-white py-12 sm:py-20"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <Magnetic strength={0.12} scale={1.01} className="block">
               <div>
@@ -84,7 +84,7 @@ export function AtmosphereSection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:col-span-7">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:col-span-7">
             <div ref={leftColRef} className="space-y-4 sm:space-y-6 will-change-transform">
               <Magnetic strength={0.16} scale={1.01} className="w-full">
                 <div className="aspect-[4/5] overflow-hidden rounded-3xl border border-[#E7E2D8] shadow-md shadow-black/5">
@@ -110,7 +110,7 @@ export function AtmosphereSection() {
 
             <div
               ref={rightColRef}
-              className="mt-8 space-y-4 sm:mt-12 sm:space-y-6 will-change-transform"
+              className="space-y-4 sm:mt-12 sm:space-y-6 will-change-transform"
             >
               <Magnetic strength={0.16} scale={1.01} className="w-full">
                 <div className="aspect-[4/3] overflow-hidden rounded-3xl border border-[#E7E2D8] shadow-md shadow-black/5">

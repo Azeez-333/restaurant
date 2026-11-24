@@ -35,10 +35,10 @@ export function MonthlySchemeSection() {
   return (
     <section
       id="monthly-scheme"
-      className="relative border-t border-[#E7E2D8] bg-white py-14 sm:py-18"
+      className="relative border-t border-[#E7E2D8] bg-white py-12 sm:py-18"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="overflow-hidden rounded-3xl border border-amber-700/20 bg-gradient-to-br from-[#FAF8F4] via-white to-amber-50/50 p-6 shadow-sm sm:p-9">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="overflow-hidden rounded-2xl border border-amber-700/20 bg-gradient-to-br from-[#FAF8F4] via-white to-amber-50/50 p-5 shadow-sm sm:rounded-3xl sm:p-9">
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <Magnetic strength={0.25}>

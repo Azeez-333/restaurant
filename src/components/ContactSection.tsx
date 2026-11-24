@@ -5,10 +5,10 @@ export function ContactSection() {
   return (
     <footer
       id="contact"
-      className="border-t border-[#E7E2D8] bg-[#F6F4EF] pt-16 pb-10 text-[#141311]"
+      className="border-t border-[#E7E2D8] bg-[#F6F4EF] pt-12 pb-8 text-[#141311] sm:pt-16 sm:pb-10"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <Magnetic strength={0.12} scale={1.01} className="block">
               <div>

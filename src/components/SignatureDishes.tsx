@@ -67,31 +67,31 @@ export function SignatureDishes() {
     <section
       id="signatures"
       ref={sectionRef}
-      className="relative border-t border-[#E7E2D8] bg-white py-16 sm:py-20"
+      className="relative border-t border-[#E7E2D8] bg-white py-12 sm:py-20"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <Magnetic strength={0.12} scale={1.01} className="block max-w-2xl">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
               House Signatures
             </p>
-            <h2 className="font-display mt-3 text-4xl font-semibold text-[#141311] sm:text-5xl">
+            <h2 className="font-display mt-2 text-3xl font-semibold text-[#141311] sm:mt-3 sm:text-5xl">
               Dishes Guests Come Back For
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-[#57524B]">
+            <p className="mt-3 text-sm leading-relaxed text-[#57524B] sm:mt-4 sm:text-base">
               Slow-cooked biryanis, blistered Kerala porotas, and freshly crushed black pepper
               masalas straight from the CM Restaurant kitchen.
             </p>
           </div>
         </Magnetic>
 
-        <div className="mt-10 space-y-12 sm:space-y-16">
+        <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-16">
           {SIGNATURE_DISHES.map((dish, idx) => {
             const reversed = idx % 2 === 1;
             return (
               <div
                 key={dish.id}
-                className="signature-row grid items-center gap-10 lg:grid-cols-12 lg:gap-14"
+                className="signature-row grid items-center gap-6 lg:grid-cols-12 lg:gap-14"
               >
                 <div className={`lg:col-span-7 ${reversed ? 'lg:order-2' : 'lg:order-1'}`}>
                   <Magnetic strength={0.14} scale={1.01} className="w-full">

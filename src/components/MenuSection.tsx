@@ -27,16 +27,16 @@ export function MenuSection() {
   return (
     <section
       id="menu"
-      className="relative border-t border-[#E7E2D8] bg-[#FAF8F5] py-14 sm:py-18"
+      className="relative border-t border-[#E7E2D8] bg-[#FAF8F5] py-12 sm:py-18"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <Magnetic strength={0.12} scale={1.01} className="block max-w-2xl">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
                 CM Restaurant Menu
               </p>
-              <h2 className="font-display mt-2 text-4xl font-semibold text-[#141311] sm:text-5xl">
+              <h2 className="font-display mt-2 text-3xl font-semibold text-[#141311] sm:text-5xl">
                 Our Complete Kitchen Menu
               </h2>
               <p className="mt-2 text-sm text-[#57524B] sm:text-base">
@@ -104,9 +104,9 @@ export function MenuSection() {
                 alt="CM Restaurant complete menu board"
                 className="w-full rounded-xl object-contain transition-transform duration-500 group-hover:scale-[1.005]"
               />
-              <div className="absolute right-5 bottom-5 hidden items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-xs font-semibold text-[#141311] shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-105 sm:inline-flex">
-                <Maximize2 className="h-3.5 w-3.5 text-amber-700" />
-                <span>Click to Zoom Menu</span>
+              <div className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#141311] shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-105 sm:right-5 sm:bottom-5 sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-xs">
+                <Maximize2 className="h-3 w-3 text-amber-700 sm:h-3.5 sm:w-3.5" />
+                <span>Tap to Zoom Menu</span>
               </div>
             </div>
           </Magnetic>

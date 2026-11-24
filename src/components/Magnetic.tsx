@@ -9,9 +9,9 @@ interface MagneticProps {
 }
 
 /**
- * Consistent GSAP magnetic wrapper: tracks cursor relative to the element's
- * resting center (compensating for current x/y offset) so fast re-entries
- * never glitch or lose responsiveness.
+ * Consistent GSAP magnetic wrapper for both desktop mouse and mobile touch:
+ * tracks pointer/touch relative to the element's resting center and springs
+ * back with elastic physics on leave/touch end.
  */
 export function Magnetic({
   children,
@@ -26,10 +26,9 @@ export function Magnetic({
     if (!el) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (prefersReducedMotion || !isFinePointer) return;
+    if (prefersReducedMotion) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const pullToward = (clientX: number, clientY: number) => {
       const rect = el.getBoundingClientRect();
       const currentX = (gsap.getProperty(el, 'x') as number) || 0;
       const currentY = (gsap.getProperty(el, 'y') as number) || 0;
@@ -37,20 +36,20 @@ export function Magnetic({
       const restingCenterX = rect.left - currentX + rect.width / 2;
       const restingCenterY = rect.top - currentY + rect.height / 2;
 
-      const targetX = (e.clientX - restingCenterX) * strength;
-      const targetY = (e.clientY - restingCenterY) * strength;
+      const targetX = (clientX - restingCenterX) * strength;
+      const targetY = (clientY - restingCenterY) * strength;
 
       gsap.to(el, {
         x: targetX,
         y: targetY,
         scale,
-        duration: 0.35,
+        duration: 0.32,
         ease: 'power3.out',
         overwrite: 'auto',
       });
     };
 
-    const handleMouseLeave = () => {
+    const springBack = () => {
       gsap.to(el, {
         x: 0,
         y: 0,
@@ -61,12 +60,30 @@ export function Magnetic({
       });
     };
 
+    const handleMouseMove = (e: MouseEvent) => pullToward(e.clientX, e.clientY);
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) pullToward(touch.clientX, touch.clientY);
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) pullToward(touch.clientX, touch.clientY);
+    };
+
     el.addEventListener('mousemove', handleMouseMove, { passive: true });
-    el.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    el.addEventListener('mouseleave', springBack, { passive: true });
+    el.addEventListener('touchstart', handleTouchStart, { passive: true });
+    el.addEventListener('touchmove', handleTouchMove, { passive: true });
+    el.addEventListener('touchend', springBack, { passive: true });
+    el.addEventListener('touchcancel', springBack, { passive: true });
 
     return () => {
       el.removeEventListener('mousemove', handleMouseMove);
-      el.removeEventListener('mouseleave', handleMouseLeave);
+      el.removeEventListener('mouseleave', springBack);
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchmove', handleTouchMove);
+      el.removeEventListener('touchend', springBack);
+      el.removeEventListener('touchcancel', springBack);
       gsap.killTweensOf(el);
     };
   }, [strength, scale]);
