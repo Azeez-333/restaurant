@@ -5,7 +5,7 @@ export function ContactSection() {
   return (
     <footer
       id="contact"
-      className="border-t border-[#E7E2D8] bg-[#F6F4EF] pt-12 pb-8 text-[#141311] sm:pt-16 sm:pb-10"
+      className="border-t border-amber-200/60 bg-gradient-to-b from-white via-[#FFFBF0] to-[#F6EBD0] pt-12 pb-8 text-[#141311] sm:pt-16 sm:pb-10"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">

@@ -67,7 +67,7 @@ export function SignatureDishes() {
     <section
       id="signatures"
       ref={sectionRef}
-      className="relative border-t border-[#E7E2D8] bg-white py-12 sm:py-20"
+      className="relative border-t border-amber-200/50 bg-gradient-to-b from-white via-[#FFFDF7] to-[#FCF6E6] py-12 sm:py-20"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <Magnetic strength={0.12} scale={1.01} className="block max-w-2xl">

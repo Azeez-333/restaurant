@@ -35,7 +35,7 @@ export function MonthlySchemeSection() {
   return (
     <section
       id="monthly-scheme"
-      className="relative border-t border-[#E7E2D8] bg-white py-12 sm:py-18"
+      className="relative border-t border-amber-200/50 bg-gradient-to-b from-white via-[#FFFDF7] to-[#FBF3DF] py-12 sm:py-18"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="overflow-hidden rounded-2xl border border-amber-700/20 bg-gradient-to-br from-[#FAF8F4] via-white to-amber-50/50 p-5 shadow-sm sm:rounded-3xl sm:p-9">

@@ -51,7 +51,7 @@ export function HeroSection() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative flex flex-col justify-center overflow-hidden bg-[#FAF9F6] pt-24 pb-10 sm:pt-28 sm:pb-14 lg:min-h-[100svh]"
+      className="relative flex flex-col justify-center overflow-hidden bg-gradient-to-br from-white via-[#FFFDF6] to-[#F9EED2] pt-24 pb-10 sm:pt-28 sm:pb-14 lg:min-h-[100svh]"
     >
       <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-4 sm:gap-12 sm:px-8 lg:grid-cols-12">
         <div ref={contentRef} className="relative z-10 lg:col-span-6 will-change-transform">
