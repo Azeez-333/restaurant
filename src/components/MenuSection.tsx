@@ -157,8 +157,8 @@ export function MenuSection() {
                       </button>
                     </div>
 
-                    {/* Floating Isolated Plate Only */}
-                    <div className={`${dish.delayClass} my-2 flex h-28 w-full items-center justify-center sm:h-32`}>
+                    {/* Isolated Plate Only */}
+                    <div className="my-2 flex h-28 w-full items-center justify-center sm:h-32">
                       <img
                         src={dish.image}
                         alt={dish.name}

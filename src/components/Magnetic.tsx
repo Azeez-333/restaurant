@@ -13,15 +13,15 @@ const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
 /**
- * Refined GSAP magnetic wrapper for desktop mouse & mobile touch:
- * gently pulls elements toward the cursor/finger with a capped axis range
- * so large cards and headings stay subtle and balanced.
+ * Subtle GSAP magnetic wrapper for desktop mouse & mobile touch:
+ * gently pulls elements toward the cursor/finger with a tight cap
+ * so buttons and links feel responsive without over-traveling.
  */
 export function Magnetic({
   children,
-  strength = 0.22,
-  scale = 1.015,
-  maxOffset = 14,
+  strength = 0.16,
+  scale = 1.01,
+  maxOffset = 7,
   className = '',
 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,8 +33,8 @@ export function Magnetic({
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const effectiveStrength = strength * 0.6;
-    const maxY = Math.round(maxOffset * 0.72);
+    const effectiveStrength = strength * 0.35;
+    const maxY = Math.round(maxOffset * 0.7);
 
     const pullToward = (clientX: number, clientY: number) => {
       const rect = el.getBoundingClientRect();
@@ -51,7 +51,7 @@ export function Magnetic({
         x: targetX,
         y: targetY,
         scale,
-        duration: 0.34,
+        duration: 0.3,
         ease: 'power3.out',
         overwrite: 'auto',
       });
@@ -62,8 +62,8 @@ export function Magnetic({
         x: 0,
         y: 0,
         scale: 1,
-        duration: 0.65,
-        ease: 'elastic.out(1, 0.45)',
+        duration: 0.55,
+        ease: 'elastic.out(1, 0.5)',
         overwrite: 'auto',
       });
     };
