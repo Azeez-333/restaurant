@@ -2,34 +2,76 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
+import { TiltCard } from './TiltCard';
 import { ComboBuilder } from './ComboBuilder';
 
-const FLOATING_GROUPS = [
+interface FloatingDish {
+  name: string;
+  image: string;
+  transform: string;
+  delayClass: string;
+}
+
+const FLOATING_DISHES: FloatingDish[] = [
   {
-    id: 'group-1',
+    name: 'Chicken Biryani',
     image: '/images/dishes-group-1.jpg',
-    alt: 'Chicken Biryani, Chicken Tikka, Butter Chicken, Vegetable Fried Rice, and Spring Rolls',
-    recipes: [
-      'Chicken Biryani',
-      'Chicken Tikka',
-      'Butter Chicken',
-      'Vegetable Fried Rice',
-      'Spring Rolls',
-    ],
-    floatClass: 'animate-float-slow',
+    transform: 'scale(2.45) translate(29%, 28%)',
+    delayClass: 'animate-float-slow',
   },
   {
-    id: 'group-2',
+    name: 'Chicken Tikka',
+    image: '/images/dishes-group-1.jpg',
+    transform: 'scale(2.45) translate(-29%, 28%)',
+    delayClass: 'animate-float-delayed',
+  },
+  {
+    name: 'Butter Chicken',
+    image: '/images/dishes-group-1.jpg',
+    transform: 'scale(2.55) translate(0%, 3%)',
+    delayClass: 'animate-float-slow',
+  },
+  {
+    name: 'Vegetable Fried Rice',
+    image: '/images/dishes-group-1.jpg',
+    transform: 'scale(2.45) translate(29%, -27%)',
+    delayClass: 'animate-float-delayed',
+  },
+  {
+    name: 'Spring Rolls',
+    image: '/images/dishes-group-1.jpg',
+    transform: 'scale(2.45) translate(-29%, -27%)',
+    delayClass: 'animate-float-slow',
+  },
+  {
+    name: 'Chicken 65',
     image: '/images/dishes-group-2.jpg',
-    alt: 'Chicken 65, Butter Naan, Chicken Hakka Noodles, Dal Curry, and Paneer Tikka',
-    recipes: [
-      'Chicken 65',
-      'Butter Naan',
-      'Chicken Hakka Noodles',
-      'Dal Curry',
-      'Paneer Tikka',
-    ],
-    floatClass: 'animate-float-delayed',
+    transform: 'scale(2.45) translate(29%, 28%)',
+    delayClass: 'animate-float-delayed',
+  },
+  {
+    name: 'Butter Naan',
+    image: '/images/dishes-group-2.jpg',
+    transform: 'scale(2.45) translate(-29%, 28%)',
+    delayClass: 'animate-float-slow',
+  },
+  {
+    name: 'Chicken Hakka Noodles',
+    image: '/images/dishes-group-2.jpg',
+    transform: 'scale(2.55) translate(0%, 3%)',
+    delayClass: 'animate-float-delayed',
+  },
+  {
+    name: 'Dal Curry',
+    image: '/images/dishes-group-2.jpg',
+    transform: 'scale(2.45) translate(29%, -27%)',
+    delayClass: 'animate-float-slow',
+  },
+  {
+    name: 'Paneer Tikka',
+    image: '/images/dishes-group-2.jpg',
+    transform: 'scale(2.45) translate(-29%, -27%)',
+    delayClass: 'animate-float-delayed',
   },
 ];
 
@@ -70,31 +112,33 @@ export function MenuSection() {
           </Magnetic>
         </div>
 
-        {/* Floating Isolated Recipes Showcase */}
-        <div className="mt-8 grid items-center gap-8 lg:grid-cols-2">
-          {FLOATING_GROUPS.map((group) => (
-            <div key={group.id} className="flex flex-col items-center">
-              <Magnetic strength={0.16} scale={1.02} className="w-full">
-                <div className={`${group.floatClass} w-full`}>
-                  <img
-                    src={group.image}
-                    alt={group.alt}
-                    loading="lazy"
-                    className="mx-auto w-full max-w-xl object-contain mix-blend-multiply drop-shadow-xl"
-                  />
-                </div>
-              </Magnetic>
-
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
-                {group.recipes.map((recipe) => (
-                  <Magnetic key={recipe} strength={0.28}>
-                    <span className="inline-block rounded-full border border-amber-300/60 bg-white/85 px-3.5 py-1 text-xs font-semibold text-[#141311] shadow-xs backdrop-blur-xs transition-colors hover:border-amber-700 hover:text-amber-700">
-                      {recipe}
-                    </span>
-                  </Magnetic>
-                ))}
-              </div>
-            </div>
+        {/* 10 Individual Floating Dish Cards */}
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5">
+          {FLOATING_DISHES.map((dish, idx) => (
+            <Magnetic key={dish.name} strength={0.2} scale={1.02} className="w-full">
+              <TiltCard className="rounded-2xl">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.4, delay: Math.min(idx * 0.05, 0.35) }}
+                  className="group flex flex-col items-center rounded-2xl border border-amber-200/60 bg-gradient-to-b from-white/95 to-[#FFF9EB]/95 p-3 shadow-xs transition-shadow duration-300 hover:shadow-lg sm:p-4"
+                >
+                  <div className={`${dish.delayClass} relative aspect-[4/3] w-full overflow-hidden`}>
+                    <img
+                      src={dish.image}
+                      alt={dish.name}
+                      loading="lazy"
+                      style={{ transform: dish.transform }}
+                      className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500"
+                    />
+                  </div>
+                  <h3 className="font-display mt-2 text-center text-base font-semibold text-[#141311] transition-colors group-hover:text-amber-700 sm:text-lg">
+                    {dish.name}
+                  </h3>
+                </motion.div>
+              </TiltCard>
+            </Magnetic>
           ))}
         </div>
 
