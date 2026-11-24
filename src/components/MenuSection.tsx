@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
+import { TiltCard } from './TiltCard';
+import { ComboBuilder } from './ComboBuilder';
 
 const FOOD_HIGHLIGHTS = [
   {
@@ -61,28 +63,30 @@ export function MenuSection() {
         <div className="mt-7 grid gap-5 sm:grid-cols-3">
           {FOOD_HIGHLIGHTS.map((item, idx) => (
             <Magnetic key={item.title} strength={0.18} scale={1.01} className="w-full">
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: idx * 0.08 }}
-                className="group overflow-hidden rounded-2xl border border-[#E7E2D8] bg-white shadow-xs transition-shadow duration-300 hover:shadow-lg"
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    loading="lazy"
-                    className="h-full w-full origin-top-left scale-[1.22] object-cover transition-transform duration-700 group-hover:scale-[1.26]"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-display text-xl font-semibold text-[#141311] transition-colors group-hover:text-amber-700">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-[#57524B]">{item.subtitle}</p>
-                </div>
-              </motion.div>
+              <TiltCard className="rounded-2xl">
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.45, delay: idx * 0.08 }}
+                  className="group overflow-hidden rounded-2xl border border-amber-200/60 bg-white shadow-xs transition-shadow duration-300 hover:shadow-lg"
+                >
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      loading="lazy"
+                      className="h-full w-full origin-top-left scale-[1.22] object-cover transition-transform duration-700 group-hover:scale-[1.26]"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-display text-xl font-semibold text-[#141311] transition-colors group-hover:text-amber-700">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-xs text-[#57524B]">{item.subtitle}</p>
+                  </div>
+                </motion.div>
+              </TiltCard>
             </Magnetic>
           ))}
         </div>
@@ -111,6 +115,8 @@ export function MenuSection() {
             </div>
           </Magnetic>
         </div>
+
+        <ComboBuilder />
       </div>
 
       <AnimatePresence>

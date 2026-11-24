@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SIGNATURE_DISHES } from '../data/menuData';
 import { Magnetic } from './Magnetic';
+import { TiltCard } from './TiltCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,17 +96,19 @@ export function SignatureDishes() {
               >
                 <div className={`lg:col-span-7 ${reversed ? 'lg:order-2' : 'lg:order-1'}`}>
                   <Magnetic strength={0.14} scale={1.01} className="w-full">
-                    <div className="signature-media group relative aspect-[16/11] overflow-hidden rounded-3xl border border-[#E7E2D8] bg-[#F5F3EF] shadow-lg shadow-black/5">
-                      <img
-                        src={dish.image}
-                        alt={dish.name}
-                        loading="lazy"
-                        className="h-full w-full origin-top-left scale-[1.22] object-cover transition-transform duration-700 group-hover:scale-[1.26]"
-                      />
-                      <span className="absolute top-4 left-4 rounded-full border border-[#E7E2D8] bg-white/90 px-3.5 py-1 text-xs font-semibold tracking-wide text-amber-800 shadow-sm backdrop-blur-sm">
-                        {dish.badge}
-                      </span>
-                    </div>
+                    <TiltCard className="rounded-3xl">
+                      <div className="signature-media group relative aspect-[16/11] overflow-hidden rounded-3xl border border-amber-200/60 bg-[#F5F3EF] shadow-lg shadow-amber-900/5">
+                        <img
+                          src={dish.image}
+                          alt={dish.name}
+                          loading="lazy"
+                          className="h-full w-full origin-top-left scale-[1.22] object-cover transition-transform duration-700 group-hover:scale-[1.26]"
+                        />
+                        <span className="absolute top-4 left-4 rounded-full border border-[#E7E2D8] bg-white/90 px-3.5 py-1 text-xs font-semibold tracking-wide text-amber-800 shadow-sm backdrop-blur-sm">
+                          {dish.badge}
+                        </span>
+                      </div>
+                    </TiltCard>
                   </Magnetic>
                 </div>
 

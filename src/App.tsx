@@ -1,3 +1,4 @@
+import { IntroCurtain } from './components/IntroCurtain';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { WalkthroughScrubber } from './components/WalkthroughScrubber';
@@ -10,6 +11,7 @@ import { ContactSection } from './components/ContactSection';
 export function App() {
   return (
     <div className="min-h-screen bg-transparent text-[#141311]">
+      <IntroCurtain />
       <Navbar />
       <main>
         <HeroSection />
