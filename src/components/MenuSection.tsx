@@ -24,7 +24,7 @@ const TOP_PICKS: TopPickDish[] = [
   {
     name: 'Chicken Tikka',
     priceLabel: "Chef's Special",
-    image: '/images/dishes/chicken-tikka.jpg',
+    image: '/images/dishes/chicken-tikka.png',
     delayClass: 'animate-float-delayed',
   },
   {
@@ -49,7 +49,7 @@ const TOP_PICKS: TopPickDish[] = [
   {
     name: 'Chicken 65',
     priceLabel: "Chef's Special",
-    image: '/images/dishes/chicken-65.jpg',
+    image: '/images/dishes/chicken-65.png',
     delayClass: 'animate-float-delayed',
   },
   {
@@ -67,7 +67,7 @@ const TOP_PICKS: TopPickDish[] = [
   {
     name: 'Dal Curry',
     priceLabel: '₹60',
-    image: '/images/dishes/dal-curry.jpg',
+    image: '/images/dishes/dal-curry.png',
     delayClass: 'animate-float-slow',
   },
   {
@@ -157,13 +157,13 @@ export function MenuSection() {
                       </button>
                     </div>
 
-                    {/* Isolated Plate Only */}
-                    <div className="my-2 flex h-28 w-full items-center justify-center sm:h-32">
+                    {/* Dish Photo */}
+                    <div className="my-2 flex h-28 w-full items-center justify-center overflow-hidden rounded-2xl sm:h-32">
                       <img
                         src={dish.image}
                         alt={dish.name}
                         loading="lazy"
-                        className="max-h-full max-w-full object-contain mix-blend-multiply"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
 
