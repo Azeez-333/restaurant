@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: "Cormorant Garamond", Georgia, serif;
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    background-color: #ffffff;
+    color: #141311;
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  body {
+    overflow-x: clip;
+    margin: 0;
+  }
+}
+
+.font-display {
+  font-family: var(--font-serif);
+}
+
+/* Custom subtle light scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f3ef;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4cdc2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b45309;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
