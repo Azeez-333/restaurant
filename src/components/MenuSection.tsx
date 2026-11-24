@@ -9,7 +9,6 @@ interface TopPickDish {
   name: string;
   priceLabel: string;
   image: string;
-  transform: string;
   delayClass: string;
   featured?: boolean;
 }
@@ -18,73 +17,63 @@ const TOP_PICKS: TopPickDish[] = [
   {
     name: 'Chicken Biryani',
     priceLabel: '₹160',
-    image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.7) translate(28%, 27%)',
+    image: '/images/dishes/chicken-biryani.jpg',
     delayClass: 'animate-float-slow',
     featured: true,
   },
   {
     name: 'Chicken Tikka',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.7) translate(-29%, 27%)',
+    image: '/images/dishes/chicken-tikka.jpg',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Butter Chicken',
     priceLabel: '₹140 / ₹240',
-    image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.75) translate(0%, 3%)',
+    image: '/images/dishes/butter-chicken.jpg',
     delayClass: 'animate-float-slow',
     featured: true,
   },
   {
     name: 'Vegetable Fried Rice',
     priceLabel: '₹90',
-    image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.7) translate(28%, -26%)',
+    image: '/images/dishes/veg-fried-rice.jpg',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Spring Rolls',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.7) translate(-28%, -26%)',
+    image: '/images/dishes/spring-rolls.jpg',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Chicken 65',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.7) translate(28%, 27%)',
+    image: '/images/dishes/chicken-65.jpg',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Butter Naan',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.7) translate(-28%, 27%)',
+    image: '/images/dishes/butter-naan.jpg',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Chicken Hakka Noodles',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.75) translate(0%, 3%)',
+    image: '/images/dishes/hakka-noodles.jpg',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Dal Curry',
     priceLabel: '₹60',
-    image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.7) translate(28%, -26%)',
+    image: '/images/dishes/dal-curry.jpg',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Paneer Tikka',
     priceLabel: "Chef's Special",
-    image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.7) translate(-28%, -26%)',
+    image: '/images/dishes/paneer-tikka.jpg',
     delayClass: 'animate-float-delayed',
   },
 ];
@@ -131,7 +120,7 @@ export function MenuSection() {
           </Magnetic>
         </div>
 
-        {/* Top Picks & Specials Cards (Tight Plate Crop + Price + Bag Action) */}
+        {/* Top Picks & Specials Cards (Individual Cropped Plates + Price + Bag Action) */}
         <div className="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
           {TOP_PICKS.map((dish, idx) => {
             const isLiked = Boolean(liked[dish.name]);
@@ -169,15 +158,12 @@ export function MenuSection() {
                     </div>
 
                     {/* Floating Isolated Plate Only */}
-                    <div
-                      className={`${dish.delayClass} mx-auto my-2 h-28 w-28 overflow-hidden rounded-full sm:h-32 sm:w-32`}
-                    >
+                    <div className={`${dish.delayClass} my-2 flex h-28 w-full items-center justify-center sm:h-32`}>
                       <img
                         src={dish.image}
                         alt={dish.name}
                         loading="lazy"
-                        style={{ transform: dish.transform }}
-                        className="h-full w-full object-contain mix-blend-multiply"
+                        className="max-h-full max-w-full object-contain mix-blend-multiply"
                       />
                     </div>
 
