@@ -1,82 +1,101 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, X } from 'lucide-react';
+import { Heart, Maximize2, ShoppingBag, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
 import { TiltCard } from './TiltCard';
 import { ComboBuilder } from './ComboBuilder';
 
-interface FloatingDish {
+interface TopPickDish {
   name: string;
+  priceLabel: string;
   image: string;
   transform: string;
   delayClass: string;
+  featured?: boolean;
 }
 
-const FLOATING_DISHES: FloatingDish[] = [
+const TOP_PICKS: TopPickDish[] = [
   {
     name: 'Chicken Biryani',
+    priceLabel: '₹160',
     image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.45) translate(29%, 28%)',
+    transform: 'scale(2.7) translate(28%, 27%)',
     delayClass: 'animate-float-slow',
+    featured: true,
   },
   {
     name: 'Chicken Tikka',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.45) translate(-29%, 28%)',
+    transform: 'scale(2.7) translate(-29%, 27%)',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Butter Chicken',
+    priceLabel: '₹140 / ₹240',
     image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.55) translate(0%, 3%)',
+    transform: 'scale(2.75) translate(0%, 3%)',
     delayClass: 'animate-float-slow',
+    featured: true,
   },
   {
     name: 'Vegetable Fried Rice',
+    priceLabel: '₹90',
     image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.45) translate(29%, -27%)',
+    transform: 'scale(2.7) translate(28%, -26%)',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Spring Rolls',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-1.jpg',
-    transform: 'scale(2.45) translate(-29%, -27%)',
+    transform: 'scale(2.7) translate(-28%, -26%)',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Chicken 65',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.45) translate(29%, 28%)',
+    transform: 'scale(2.7) translate(28%, 27%)',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Butter Naan',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.45) translate(-29%, 28%)',
+    transform: 'scale(2.7) translate(-28%, 27%)',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Chicken Hakka Noodles',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.55) translate(0%, 3%)',
+    transform: 'scale(2.75) translate(0%, 3%)',
     delayClass: 'animate-float-delayed',
   },
   {
     name: 'Dal Curry',
+    priceLabel: '₹60',
     image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.45) translate(29%, -27%)',
+    transform: 'scale(2.7) translate(28%, -26%)',
     delayClass: 'animate-float-slow',
   },
   {
     name: 'Paneer Tikka',
+    priceLabel: "Chef's Special",
     image: '/images/dishes-group-2.jpg',
-    transform: 'scale(2.45) translate(-29%, -27%)',
+    transform: 'scale(2.7) translate(-28%, -26%)',
     delayClass: 'animate-float-delayed',
   },
 ];
 
 export function MenuSection() {
   const [showBoardModal, setShowBoardModal] = useState(false);
+  const [liked, setLiked] = useState<Record<string, boolean>>({});
+
+  const toggleLike = (name: string) => {
+    setLiked((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
 
   return (
     <section
@@ -88,13 +107,13 @@ export function MenuSection() {
           <Magnetic strength={0.12} scale={1.01} className="block max-w-2xl">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-                CM Restaurant Menu
+                Our Top Picks &amp; Specials
               </p>
               <h2 className="font-display mt-2 text-3xl font-semibold text-[#141311] sm:text-5xl">
-                Our Complete Kitchen Menu
+                Our Top Picks &amp; Kitchen Menu
               </h2>
               <p className="mt-2 text-sm text-[#57524B] sm:text-base">
-                Every biryani, tawa mix, curry, fry, and hand-flaked bread —{' '}
+                Signature plates and guest favourites —{' '}
                 <span className="font-medium text-amber-800">parcel charges extra.</span>
               </p>
             </div>
@@ -112,34 +131,84 @@ export function MenuSection() {
           </Magnetic>
         </div>
 
-        {/* 10 Individual Floating Dish Cards */}
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5">
-          {FLOATING_DISHES.map((dish, idx) => (
-            <Magnetic key={dish.name} strength={0.2} scale={1.02} className="w-full">
-              <TiltCard className="rounded-2xl">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-30px' }}
-                  transition={{ duration: 0.4, delay: Math.min(idx * 0.05, 0.35) }}
-                  className="group flex flex-col items-center rounded-2xl border border-amber-200/60 bg-gradient-to-b from-white/95 to-[#FFF9EB]/95 p-3 shadow-xs transition-shadow duration-300 hover:shadow-lg sm:p-4"
-                >
-                  <div className={`${dish.delayClass} relative aspect-[4/3] w-full overflow-hidden`}>
-                    <img
-                      src={dish.image}
-                      alt={dish.name}
-                      loading="lazy"
-                      style={{ transform: dish.transform }}
-                      className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500"
-                    />
-                  </div>
-                  <h3 className="font-display mt-2 text-center text-base font-semibold text-[#141311] transition-colors group-hover:text-amber-700 sm:text-lg">
-                    {dish.name}
-                  </h3>
-                </motion.div>
-              </TiltCard>
-            </Magnetic>
-          ))}
+        {/* Top Picks & Specials Cards (Tight Plate Crop + Price + Bag Action) */}
+        <div className="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
+          {TOP_PICKS.map((dish, idx) => {
+            const isLiked = Boolean(liked[dish.name]);
+            return (
+              <Magnetic key={dish.name} strength={0.18} scale={1.02} className="w-full">
+                <TiltCard className="rounded-3xl">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-30px' }}
+                    transition={{ duration: 0.4, delay: Math.min(idx * 0.04, 0.32) }}
+                    className="group relative flex flex-col justify-between rounded-3xl border border-amber-200/50 bg-[#F9F8F5]/95 p-3.5 shadow-xs transition-shadow duration-300 hover:bg-white hover:shadow-lg sm:p-4"
+                  >
+                    {/* Top Row: Heart Favorite */}
+                    <div className="flex items-center justify-between">
+                      {dish.featured ? (
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-800">
+                          Top Pick
+                        </span>
+                      ) : (
+                        <span />
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => toggleLike(dish.name)}
+                        aria-label={`Favorite ${dish.name}`}
+                        className="flex h-7 w-7 items-center justify-center rounded-full text-[#4A4640] transition-colors hover:bg-amber-50 hover:text-rose-600"
+                      >
+                        <Heart
+                          className={`h-4 w-4 transition-colors ${
+                            isLiked ? 'fill-rose-500 text-rose-500' : ''
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    {/* Floating Isolated Plate Only */}
+                    <div
+                      className={`${dish.delayClass} mx-auto my-2 h-28 w-28 overflow-hidden rounded-full sm:h-32 sm:w-32`}
+                    >
+                      <img
+                        src={dish.image}
+                        alt={dish.name}
+                        loading="lazy"
+                        style={{ transform: dish.transform }}
+                        className="h-full w-full object-contain mix-blend-multiply"
+                      />
+                    </div>
+
+                    {/* Bottom Row: Dish Name, Menu Price & Bag Icon */}
+                    <div className="mt-2 flex items-end justify-between gap-2">
+                      <div className="min-w-0">
+                        <h3 className="truncate text-sm font-semibold text-[#141311] transition-colors group-hover:text-amber-700 sm:text-[15px]">
+                          {dish.name}
+                        </h3>
+                        <p className="mt-0.5 font-mono text-xs font-bold text-[#141311] sm:text-sm">
+                          {dish.priceLabel}
+                        </p>
+                      </div>
+
+                      <a
+                        href="#contact"
+                        aria-label={`Order ${dish.name}`}
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
+                          dish.featured
+                            ? 'bg-[#141311] text-white hover:bg-amber-700'
+                            : 'border border-[#E2DDD3] bg-white text-[#141311] hover:bg-[#141311] hover:text-white'
+                        }`}
+                      >
+                        <ShoppingBag className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                  </motion.div>
+                </TiltCard>
+              </Magnetic>
+            );
+          })}
         </div>
 
         <div className="mt-9">
