@@ -16,7 +16,8 @@ export function AtmosphereSection() {
       return;
     }
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 1024px)', () => {
       gsap.to(leftColRef.current, {
         yPercent: -8,
         ease: 'none',
@@ -38,9 +39,9 @@ export function AtmosphereSection() {
           scrub: true,
         },
       });
-    }, sectionRef);
+    });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
 
   return (
