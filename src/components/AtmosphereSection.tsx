@@ -48,7 +48,7 @@ export function AtmosphereSection() {
     <section
       id="atmosphere"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-amber-200/50 bg-gradient-to-b from-[#FBF3DF] via-[#FFFDF8] to-white py-12 sm:py-20"
+      className="relative overflow-hidden border-t border-amber-200/50 bg-transparent py-12 sm:py-20"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">

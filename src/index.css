@@ -7,7 +7,7 @@
   }
 
   html {
-    background: linear-gradient(180deg, #ffffff 0%, #fffdf7 45%, #fbf3df 100%);
+    background-color: #fffdf8;
     color: #141311;
     font-family: var(--font-sans);
     overflow-x: clip;
@@ -16,7 +16,13 @@
   body {
     overflow-x: clip;
     margin: 0;
-    background: transparent;
+    background:
+      radial-gradient(circle at 12% 10%, rgba(245, 196, 81, 0.18) 0%, transparent 42%),
+      radial-gradient(circle at 88% 28%, rgba(217, 155, 38, 0.14) 0%, transparent 45%),
+      radial-gradient(circle at 18% 68%, rgba(245, 196, 81, 0.16) 0%, transparent 48%),
+      radial-gradient(circle at 85% 92%, rgba(217, 155, 38, 0.2) 0%, transparent 45%),
+      linear-gradient(180deg, #ffffff 0%, #fffcf3 35%, #fdf4dc 70%, #faf0d2 100%);
+    background-attachment: fixed;
   }
 }
 
@@ -40,10 +46,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #b45309;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto !important;
-  }
 }

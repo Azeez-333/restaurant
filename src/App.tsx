@@ -9,7 +9,7 @@ import { ContactSection } from './components/ContactSection';
 
 export function App() {
   return (
-    <div className="min-h-screen bg-white text-[#141311]">
+    <div className="min-h-screen bg-transparent text-[#141311]">
       <Navbar />
       <main>
         <HeroSection />

@@ -27,7 +27,7 @@ export function MenuSection() {
   return (
     <section
       id="menu"
-      className="relative border-t border-amber-200/50 bg-gradient-to-b from-[#FCF6E6] via-[#FFFDF8] to-white py-12 sm:py-18"
+      className="relative border-t border-amber-200/50 bg-transparent py-12 sm:py-18"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">

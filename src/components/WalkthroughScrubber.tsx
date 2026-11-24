@@ -215,11 +215,9 @@ export function WalkthroughScrubber() {
       trigger?.kill();
       trigger = ScrollTrigger.create({
         trigger: container,
-        pin: pinEl,
         start: 'top top',
-        end: () => (window.innerWidth < 768 ? '+=1300' : '+=2000'),
+        end: 'bottom bottom',
         scrub: true,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const p = self.progress;
@@ -281,11 +279,13 @@ export function WalkthroughScrubber() {
     <section
       id="walkthrough"
       ref={containerRef}
-      className="relative border-t border-amber-200/50 bg-[#FFFDF7] text-[#141311]"
+      className={`relative border-t border-amber-200/50 bg-[#FFFDF7] text-[#141311] ${
+        reducedMotion ? 'h-[100dvh]' : 'h-[280dvh] md:h-[340dvh]'
+      }`}
     >
       <div
         ref={pinRef}
-        className="relative flex h-[100dvh] min-h-[100svh] w-full items-center justify-center overflow-hidden bg-[#FBF3DF]"
+        className="sticky top-0 flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#FBF3DF]"
       >
         {!hasError ? (
           <>
