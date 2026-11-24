@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Maximize2, ShoppingBag, X } from 'lucide-react';
+import { Heart, BookOpen, ShoppingBag, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
 import { TiltCard } from './TiltCard';
 import { ComboBuilder } from './ComboBuilder';
@@ -114,8 +114,8 @@ export function MenuSection() {
               onClick={() => setShowBoardModal(true)}
               className="group inline-flex items-center gap-2 self-start rounded-full border border-[#D8D2C7] bg-white px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#141311] shadow-xs transition-all hover:border-amber-700 hover:bg-amber-700 hover:text-white lg:self-auto"
             >
-              <Maximize2 className="h-3.5 w-3.5 text-amber-700 transition-colors group-hover:text-white" />
-              <span>Zoom Menu Board</span>
+              <BookOpen className="h-3.5 w-3.5 text-amber-700 transition-colors group-hover:text-white" />
+              <span>Menu</span>
             </button>
           </Magnetic>
         </div>
@@ -163,7 +163,7 @@ export function MenuSection() {
                         src={dish.image}
                         alt={dish.name}
                         loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full origin-top scale-[1.08] object-cover transition-transform duration-500 group-hover:scale-[1.12]"
                       />
                     </div>
 
@@ -195,31 +195,6 @@ export function MenuSection() {
               </Magnetic>
             );
           })}
-        </div>
-
-        <div className="mt-9">
-          <Magnetic strength={0.08} scale={1.005} className="w-full">
-            <div
-              onClick={() => setShowBoardModal(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') setShowBoardModal(true);
-              }}
-              aria-label="Open full size CM Restaurant menu board"
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[#E7E2D8] bg-[#141311] p-2 shadow-lg shadow-black/10 sm:p-3"
-            >
-              <img
-                src="/images/menu-board.jpg"
-                alt="CM Restaurant complete menu board"
-                className="w-full rounded-xl object-contain transition-transform duration-500 group-hover:scale-[1.005]"
-              />
-              <div className="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#141311] shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-105 sm:right-5 sm:bottom-5 sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-xs">
-                <Maximize2 className="h-3 w-3 text-amber-700 sm:h-3.5 sm:w-3.5" />
-                <span>Tap to Zoom Menu</span>
-              </div>
-            </div>
-          </Magnetic>
         </div>
 
         <ComboBuilder />
