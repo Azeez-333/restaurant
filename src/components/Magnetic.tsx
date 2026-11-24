@@ -5,18 +5,23 @@ interface MagneticProps {
   children: ReactNode;
   strength?: number;
   scale?: number;
+  maxOffset?: number;
   className?: string;
 }
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
 /**
- * Consistent GSAP magnetic wrapper for both desktop mouse and mobile touch:
- * tracks pointer/touch relative to the element's resting center and springs
- * back with elastic physics on leave/touch end.
+ * Refined GSAP magnetic wrapper for desktop mouse & mobile touch:
+ * gently pulls elements toward the cursor/finger with a capped axis range
+ * so large cards and headings stay subtle and balanced.
  */
 export function Magnetic({
   children,
-  strength = 0.34,
-  scale = 1.02,
+  strength = 0.22,
+  scale = 1.015,
+  maxOffset = 14,
   className = '',
 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,6 +33,9 @@ export function Magnetic({
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
+    const effectiveStrength = strength * 0.6;
+    const maxY = Math.round(maxOffset * 0.72);
+
     const pullToward = (clientX: number, clientY: number) => {
       const rect = el.getBoundingClientRect();
       const currentX = (gsap.getProperty(el, 'x') as number) || 0;
@@ -36,14 +44,14 @@ export function Magnetic({
       const restingCenterX = rect.left - currentX + rect.width / 2;
       const restingCenterY = rect.top - currentY + rect.height / 2;
 
-      const targetX = (clientX - restingCenterX) * strength;
-      const targetY = (clientY - restingCenterY) * strength;
+      const targetX = clamp((clientX - restingCenterX) * effectiveStrength, -maxOffset, maxOffset);
+      const targetY = clamp((clientY - restingCenterY) * effectiveStrength, -maxY, maxY);
 
       gsap.to(el, {
         x: targetX,
         y: targetY,
         scale,
-        duration: 0.32,
+        duration: 0.34,
         ease: 'power3.out',
         overwrite: 'auto',
       });
@@ -55,7 +63,7 @@ export function Magnetic({
         y: 0,
         scale: 1,
         duration: 0.65,
-        ease: 'elastic.out(1, 0.4)',
+        ease: 'elastic.out(1, 0.45)',
         overwrite: 'auto',
       });
     };
@@ -86,7 +94,7 @@ export function Magnetic({
       el.removeEventListener('touchcancel', springBack);
       gsap.killTweensOf(el);
     };
-  }, [strength, scale]);
+  }, [strength, scale, maxOffset]);
 
   return (
     <div ref={ref} className={`inline-block will-change-transform ${className}`}>
