@@ -44,6 +44,7 @@ export function WalkthroughScrubber() {
   const progressTextRef = useRef<HTMLSpanElement>(null);
 
   const [isReady, setIsReady] = useState(false);
+  const [hasFirstFrame, setHasFirstFrame] = useState(false);
   const [framesCached, setFramesCached] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -91,7 +92,7 @@ export function WalkthroughScrubber() {
     };
 
     const drawCoverCrop = (source: ImageBitmap | HTMLVideoElement, srcW: number, srcH: number) => {
-      const ctx = canvas.getContext('2d', { alpha: false });
+      const ctx = canvas.getContext('2d', { alpha: true });
       if (!ctx || srcW === 0 || srcH === 0) return;
 
       const sw = srcW / 1.12;
@@ -105,6 +106,7 @@ export function WalkthroughScrubber() {
       const dy = (ch - dh) / 2;
 
       ctx.drawImage(source, 0, 0, sw, sh, dx, dy, dw, dh);
+      setHasFirstFrame(true);
     };
 
     const startFrameExtraction = async () => {
@@ -269,21 +271,29 @@ export function WalkthroughScrubber() {
       });
     };
 
+    const handleLoadedMetadata = () => {
+      if (video.currentTime === 0) {
+        video.currentTime = 0.001;
+      }
+      setupScrollTrigger();
+    };
     const handleLoadedData = () => setupScrollTrigger();
     const handleError = () => setHasError(true);
 
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
     video.addEventListener('loadeddata', handleLoadedData);
     video.addEventListener('seeked', handleSeeked);
     video.addEventListener('error', handleError);
     window.addEventListener('resize', sizeCanvas);
 
-    if (video.readyState >= 2) {
+    if (video.readyState >= 1) {
       setupScrollTrigger();
     }
 
     return () => {
       cancelled = true;
       observer.disconnect();
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('seeked', handleSeeked);
       video.removeEventListener('error', handleError);
@@ -319,7 +329,7 @@ export function WalkthroughScrubber() {
               src="/videos/walkthrough.mp4"
               muted
               playsInline
-              preload="metadata"
+              preload="auto"
               controls={reducedMotion}
               className={
                 reducedMotion
@@ -328,7 +338,21 @@ export function WalkthroughScrubber() {
               }
             />
             {!reducedMotion && (
-              <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
+              <>
+                {!hasFirstFrame && (
+                  <img
+                    src="/images/hero-interior.jpg"
+                    alt="CM Restaurant walkthrough preview"
+                    className="absolute inset-0 h-full w-full origin-top-left scale-[1.22] object-cover object-center"
+                  />
+                )}
+                <canvas
+                  ref={canvasRef}
+                  className={`absolute inset-0 block h-full w-full transition-opacity duration-200 ${
+                    hasFirstFrame ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              </>
             )}
           </>
         ) : (
