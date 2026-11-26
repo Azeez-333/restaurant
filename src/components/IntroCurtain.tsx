@@ -34,7 +34,20 @@ export function IntroCurtain() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
             className="flex flex-col items-center"
           >
-            {/* Animated Frying Pan */}
+            {/* CM Logo & Brand Above */}
+            <div className="mb-3 flex items-center gap-3">
+              <CmLogo size="lg" className="h-14 w-14 p-1.5 shadow-md shadow-amber-900/10" />
+              <div className="text-left">
+                <p className="font-display text-3xl font-semibold tracking-wide text-[#141311] sm:text-4xl">
+                  CM Restaurant
+                </p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-amber-700">
+                  Kitchen &amp; Grill
+                </p>
+              </div>
+            </div>
+
+            {/* Larger Animated Frying Pan Below Logo */}
             <motion.img
               src="/images/loading-pan.png"
               alt="Cooking pan animation"
@@ -47,23 +60,10 @@ export function IntroCurtain() {
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
-              className="mb-3 h-28 w-auto object-contain sm:h-36"
+              className="h-40 w-auto object-contain sm:h-52"
             />
 
-            {/* CM Logo & Brand */}
-            <div className="flex items-center gap-3">
-              <CmLogo size="lg" className="h-12 w-12 p-1.5 shadow-md shadow-amber-900/10" />
-              <div className="text-left">
-                <p className="font-display text-3xl font-semibold tracking-wide text-[#141311] sm:text-4xl">
-                  CM Restaurant
-                </p>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-amber-700">
-                  Kitchen &amp; Grill
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 h-0.5 w-44 overflow-hidden rounded-full bg-amber-100">
+            <div className="mt-4 h-0.5 w-48 overflow-hidden rounded-full bg-amber-100">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: '0%' }}
