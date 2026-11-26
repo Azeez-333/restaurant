@@ -4,15 +4,17 @@ interface CmLogoProps {
 }
 
 export function CmLogo({ size = 'sm', className = '' }: CmLogoProps) {
-  const dimensions = size === 'lg' ? 'h-14 w-14 text-2xl' : 'h-8 w-8 text-sm';
+  const dimensions = size === 'lg' ? 'h-20 w-20 p-2' : 'h-9 w-9 p-1';
 
   return (
     <span
-      className={`font-display inline-flex shrink-0 items-center justify-center rounded-full border border-amber-500/50 bg-[#141311] font-bold tracking-tight text-amber-300 shadow-sm ${dimensions} ${className}`}
-      aria-hidden="true"
+      className={`inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-amber-500/40 bg-[#1B1917] shadow-sm ${dimensions} ${className}`}
     >
-      CM
+      <img
+        src="/images/cm-logo.png"
+        alt="CM Restaurant logo"
+        className="h-full w-full object-contain"
+      />
     </span>
   );
 }
-
