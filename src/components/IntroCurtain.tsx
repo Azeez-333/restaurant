@@ -14,7 +14,7 @@ export function IntroCurtain() {
 
     const timer = window.setTimeout(() => {
       setVisible(false);
-    }, 950);
+    }, 1450);
 
     return () => window.clearTimeout(timer);
   }, []);
@@ -29,23 +29,45 @@ export function IntroCurtain() {
           aria-hidden="true"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
             className="flex flex-col items-center"
           >
-            <CmLogo size="lg" className="shadow-lg shadow-amber-900/10" />
-            <p className="font-display mt-4 text-3xl font-semibold tracking-wide text-[#141311] sm:text-4xl">
-              CM Restaurant
-            </p>
-            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-amber-700">
-              Kitchen &amp; Grill
-            </p>
-            <div className="mt-6 h-0.5 w-36 overflow-hidden rounded-full bg-amber-200/70">
+            {/* Animated Frying Pan */}
+            <motion.img
+              src="/images/loading-pan.png"
+              alt="Cooking pan animation"
+              animate={{
+                rotate: [0, -7, 3, -5, 0],
+                y: [0, -10, 0, -6, 0],
+              }}
+              transition={{
+                duration: 1.1,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="mb-3 h-28 w-auto object-contain sm:h-36"
+            />
+
+            {/* CM Logo & Brand */}
+            <div className="flex items-center gap-3">
+              <CmLogo size="lg" className="h-12 w-12 p-1.5 shadow-md shadow-amber-900/10" />
+              <div className="text-left">
+                <p className="font-display text-3xl font-semibold tracking-wide text-[#141311] sm:text-4xl">
+                  CM Restaurant
+                </p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-amber-700">
+                  Kitchen &amp; Grill
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 h-0.5 w-44 overflow-hidden rounded-full bg-amber-100">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: '0%' }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
                 className="h-full w-full bg-gradient-to-r from-amber-700 via-amber-500 to-amber-700"
               />
             </div>
@@ -55,4 +77,3 @@ export function IntroCurtain() {
     </AnimatePresence>
   );
 }
-
