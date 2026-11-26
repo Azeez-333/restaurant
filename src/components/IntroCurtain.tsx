@@ -42,7 +42,7 @@ export function IntroCurtain() {
                   CM Restaurant
                 </p>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-amber-700">
-                  Kitchen &amp; Grill
+                  Food and Snacks
                 </p>
               </div>
             </div>
