@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, BookOpen, ShoppingBag, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
 import { TiltCard } from './TiltCard';
-import { ComboBuilder } from './ComboBuilder';
 
 interface TopPickDish {
   name: string;
@@ -196,8 +195,6 @@ export function MenuSection() {
             );
           })}
         </div>
-
-        <ComboBuilder />
       </div>
 
       <AnimatePresence>
