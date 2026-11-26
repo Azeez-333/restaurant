@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, UtensilsCrossed, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { Magnetic } from './Magnetic';
+import { CmLogo } from './CmLogo';
 
 const NAV_LINKS = [
   { label: 'Walkthrough', href: '#walkthrough' },
@@ -58,9 +59,10 @@ export function Navbar() {
             href="#hero"
             className="group flex items-center gap-2.5 text-[#141311] focus:outline-none"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#141311] text-white transition-colors duration-300 group-hover:bg-amber-700">
-              <UtensilsCrossed className="h-3.5 w-3.5" />
-            </span>
+            <CmLogo
+              size="sm"
+              className="transition-colors duration-300 group-hover:bg-amber-700 group-hover:text-white"
+            />
             <span className="font-display text-lg font-bold tracking-wide text-[#141311] transition-colors group-hover:text-amber-700 sm:text-xl">
               CM Restaurant
             </span>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UtensilsCrossed } from 'lucide-react';
+import { CmLogo } from './CmLogo';
 
 export function IntroCurtain() {
   const [visible, setVisible] = useState(true);
@@ -34,9 +34,7 @@ export function IntroCurtain() {
             transition={{ duration: 0.45, ease: 'easeOut' }}
             className="flex flex-col items-center"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-amber-600/30 bg-[#141311] text-amber-300 shadow-lg shadow-amber-900/10">
-              <UtensilsCrossed className="h-6 w-6" />
-            </span>
+            <CmLogo size="lg" className="shadow-lg shadow-amber-900/10" />
             <p className="font-display mt-4 text-3xl font-semibold tracking-wide text-[#141311] sm:text-4xl">
               CM Restaurant
             </p>
