@@ -77,7 +77,7 @@ export function TiltCard({ children, className = '', maxTilt = 5 }: TiltCardProp
   }, [maxTilt]);
 
   return (
-    <div ref={cardRef} className={`relative will-change-transform ${className}`}>
+    <div ref={cardRef} className={`relative ${className}`}>
       {children}
       <div
         ref={sheenRef}

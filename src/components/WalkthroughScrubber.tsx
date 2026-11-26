@@ -33,7 +33,7 @@ const WALKTHROUGH_STAGES: WalkthroughStage[] = [
   },
 ];
 
-const TARGET_FRAMES = 72;
+const TARGET_FRAMES = 44;
 
 export function WalkthroughScrubber() {
   const containerRef = useRef<HTMLElement>(null);
@@ -74,11 +74,13 @@ export function WalkthroughScrubber() {
     let lastSeekAt = 0;
     let activeIdx = 0;
     let lastDrawnFrame = -1;
+    let extractionStarted = false;
 
     const bitmaps: ImageBitmap[] = [];
 
     const sizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const maxDpr = window.innerWidth < 768 ? 1.25 : 1.5;
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
       const w = pinEl.clientWidth;
       const h = pinEl.clientHeight;
       if (w > 0 && h > 0) {
@@ -92,7 +94,6 @@ export function WalkthroughScrubber() {
       const ctx = canvas.getContext('2d', { alpha: false });
       if (!ctx || srcW === 0 || srcH === 0) return;
 
-      // Crop bottom-right 12% to remove corner watermark while keeping full quality
       const sw = srcW / 1.12;
       const sh = srcH / 1.12;
       const cw = canvas.width;
@@ -106,9 +107,9 @@ export function WalkthroughScrubber() {
       ctx.drawImage(source, 0, 0, sw, sh, dx, dy, dw, dh);
     };
 
-    // Pre-extract crisp frames in the background so mobile & desktop scrub at 60fps
-    const extractFramesInBackground = async () => {
-      if (!video.duration || Number.isNaN(video.duration)) return;
+    const startFrameExtraction = async () => {
+      if (extractionStarted || !video.duration || Number.isNaN(video.duration)) return;
+      extractionStarted = true;
 
       const extractor = document.createElement('video');
       extractor.src = video.currentSrc || '/videos/walkthrough.mp4';
@@ -133,6 +134,7 @@ export function WalkthroughScrubber() {
 
       const vw = extractor.videoWidth;
       const vh = extractor.videoHeight;
+      const resizeWidth = window.innerWidth < 768 ? 720 : 1280;
       const step = Math.max(0.01, (extractor.duration - 0.04) / (TARGET_FRAMES - 1));
 
       for (let i = 0; i < TARGET_FRAMES; i++) {
@@ -150,10 +152,13 @@ export function WalkthroughScrubber() {
 
         if (cancelled) break;
         try {
-          const bmp = await createImageBitmap(extractor, 0, 0, vw, vh);
+          const bmp = await createImageBitmap(extractor, 0, 0, vw, vh, {
+            resizeWidth: Math.min(vw, resizeWidth),
+            resizeQuality: 'medium',
+          });
           bitmaps.push(bmp);
           if (i === 0 && canvas.width > 0) {
-            drawCoverCrop(bmp, vw, vh);
+            drawCoverCrop(bmp, bmp.width, bmp.height);
           }
         } catch {
           break;
@@ -161,15 +166,23 @@ export function WalkthroughScrubber() {
       }
 
       extractor.src = '';
-      if (!cancelled && bitmaps.length >= 20) {
+      if (!cancelled && bitmaps.length >= 16) {
         setFramesCached(true);
       }
     };
 
-    const renderFrame = (now: number) => {
-      smoothProgress += (targetProgress - smoothProgress) * 0.22;
+    const scheduleRender = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(renderFrame);
+      }
+    };
 
-      if (bitmaps.length >= 20) {
+    const renderFrame = (now: number) => {
+      rafId = null;
+      const delta = targetProgress - smoothProgress;
+      smoothProgress += delta * 0.25;
+
+      if (bitmaps.length >= 16) {
         const frameIdx = Math.min(
           bitmaps.length - 1,
           Math.max(0, Math.round(smoothProgress * (bitmaps.length - 1)))
@@ -182,8 +195,8 @@ export function WalkthroughScrubber() {
         const targetTime = smoothProgress * Math.max(0, duration - 0.02);
         if (
           !isSeeking &&
-          now - lastSeekAt >= 36 &&
-          Math.abs(video.currentTime - targetTime) > 0.025
+          now - lastSeekAt >= 40 &&
+          Math.abs(video.currentTime - targetTime) > 0.03
         ) {
           isSeeking = true;
           lastSeekAt = now;
@@ -191,15 +204,30 @@ export function WalkthroughScrubber() {
         }
       }
 
-      rafId = window.requestAnimationFrame(renderFrame);
+      // Stop rAF loop when settled to save CPU/battery
+      if (Math.abs(delta) > 0.0008) {
+        scheduleRender();
+      }
     };
 
     const handleSeeked = () => {
       isSeeking = false;
-      if (bitmaps.length < 20 && video.videoWidth) {
+      if (bitmaps.length < 16 && video.videoWidth) {
         drawCoverCrop(video, video.videoWidth, video.videoHeight);
       }
     };
+
+    // Start frame extraction only once the walkthrough is near the viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          observer.disconnect();
+          void startFrameExtraction();
+        }
+      },
+      { rootMargin: '700px 0px' }
+    );
+    observer.observe(container);
 
     const setupScrollTrigger = () => {
       if (!video.duration || Number.isNaN(video.duration)) return;
@@ -210,7 +238,6 @@ export function WalkthroughScrubber() {
         drawCoverCrop(video, video.videoWidth, video.videoHeight);
       }
       setIsReady(true);
-      void extractFramesInBackground();
 
       trigger?.kill();
       trigger = ScrollTrigger.create({
@@ -222,6 +249,7 @@ export function WalkthroughScrubber() {
         onUpdate: (self) => {
           const p = self.progress;
           targetProgress = p;
+          scheduleRender();
 
           if (progressBarRef.current) {
             progressBarRef.current.style.width = `${Math.min(100, Math.max(2, p * 100))}%`;
@@ -239,10 +267,6 @@ export function WalkthroughScrubber() {
           }
         },
       });
-
-      if (rafId === null) {
-        rafId = window.requestAnimationFrame(renderFrame);
-      }
     };
 
     const handleLoadedData = () => setupScrollTrigger();
@@ -259,6 +283,7 @@ export function WalkthroughScrubber() {
 
     return () => {
       cancelled = true;
+      observer.disconnect();
       video.removeEventListener('loadeddata', handleLoadedData);
       video.removeEventListener('seeked', handleSeeked);
       video.removeEventListener('error', handleError);
@@ -280,7 +305,7 @@ export function WalkthroughScrubber() {
       id="walkthrough"
       ref={containerRef}
       className={`relative border-t border-amber-200/50 bg-[#FFFDF7] text-[#141311] ${
-        reducedMotion ? 'h-[100dvh]' : 'h-[280dvh] md:h-[340dvh]'
+        reducedMotion ? 'h-[100dvh]' : 'h-[260dvh] md:h-[320dvh]'
       }`}
     >
       <div
@@ -294,7 +319,7 @@ export function WalkthroughScrubber() {
               src="/videos/walkthrough.mp4"
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               controls={reducedMotion}
               className={
                 reducedMotion
@@ -303,10 +328,7 @@ export function WalkthroughScrubber() {
               }
             />
             {!reducedMotion && (
-              <canvas
-                ref={canvasRef}
-                className="absolute inset-0 h-full w-full block"
-              />
+              <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" />
             )}
           </>
         ) : (
@@ -321,12 +343,12 @@ export function WalkthroughScrubber() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
 
         <div className="pointer-events-none absolute top-16 left-0 right-0 z-10 mx-auto flex max-w-7xl items-center justify-between px-4 sm:top-20 sm:px-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800 shadow-sm backdrop-blur-md sm:px-4 sm:py-1.5 sm:text-[11px]">
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800 shadow-sm sm:px-4 sm:py-1.5 sm:text-[11px]">
             <Compass className="h-3.5 w-3.5 text-amber-700" />
             CM Restaurant Walkthrough
           </div>
           {!reducedMotion && (
-            <div className="hidden items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A4640] shadow-sm backdrop-blur-md sm:inline-flex">
+            <div className="hidden items-center gap-2 rounded-full border border-amber-200/80 bg-white/90 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4A4640] shadow-sm sm:inline-flex">
               <Film className="h-3.5 w-3.5 text-amber-700" />
               {framesCached
                 ? 'Scroll to Move Through Space'
@@ -338,7 +360,7 @@ export function WalkthroughScrubber() {
         </div>
 
         <div className="pointer-events-none absolute bottom-4 left-0 right-0 z-10 mx-auto max-w-7xl px-4 sm:bottom-14 sm:px-10">
-          <div className="max-w-xl rounded-2xl border border-amber-200/70 bg-gradient-to-br from-white/95 to-[#FFF9EB]/95 p-4 shadow-xl shadow-black/10 backdrop-blur-md transition-all duration-300 sm:p-8">
+          <div className="max-w-xl rounded-2xl border border-amber-200/70 bg-gradient-to-br from-white/95 to-[#FFF9EB]/95 p-4 shadow-xl shadow-black/10 transition-all duration-300 sm:p-8">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700 sm:text-xs">
               {activeStage.eyebrow}
             </p>

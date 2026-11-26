@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, BookOpen, ShoppingBag, X } from 'lucide-react';
 import { Magnetic } from './Magnetic';
-import { TiltCard } from './TiltCard';
 
 interface TopPickDish {
   name: string;
@@ -124,15 +123,14 @@ export function MenuSection() {
           {TOP_PICKS.map((dish, idx) => {
             const isLiked = Boolean(liked[dish.name]);
             return (
-              <Magnetic key={dish.name} strength={0.18} scale={1.02} className="w-full">
-                <TiltCard className="rounded-3xl">
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-30px' }}
-                    transition={{ duration: 0.4, delay: Math.min(idx * 0.04, 0.32) }}
-                    className="group relative flex flex-col justify-between rounded-3xl border border-amber-200/50 bg-[#F9F8F5]/95 p-3.5 shadow-xs transition-shadow duration-300 hover:bg-white hover:shadow-lg sm:p-4"
-                  >
+              <Magnetic key={dish.name} strength={0.14} scale={1.01} className="w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.4, delay: Math.min(idx * 0.04, 0.32) }}
+                  className="group relative flex flex-col justify-between rounded-3xl border border-amber-200/50 bg-[#F9F8F5]/95 p-3.5 shadow-xs transition-shadow duration-300 hover:bg-white hover:shadow-lg sm:p-4"
+                >
                     {/* Top Row: Heart Favorite */}
                     <div className="flex items-center justify-between">
                       {dish.featured ? (
@@ -190,7 +188,6 @@ export function MenuSection() {
                       </a>
                     </div>
                   </motion.div>
-                </TiltCard>
               </Magnetic>
             );
           })}
